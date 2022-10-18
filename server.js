@@ -1,8 +1,10 @@
 const app = require("./app");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-const DB_HOST =
-  "mongodb+srv://Mustadonte:aqWzTcWQmiqHUFdX@cluster0.uptsfxc.mongodb.net/db_contacts?retryWrites=true&w=majority";
+dotenv.config();
+
+const { DB_HOST } = process.env;
 
 mongoose
   .connect(DB_HOST)
