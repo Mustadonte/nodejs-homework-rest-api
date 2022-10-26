@@ -1,9 +1,13 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, SchemaTypes } = require("mongoose");
 const { handleSaveErrors } = require("../helpers");
 const Joi = require("Joi");
 
 const contactSchema = new Schema(
   {
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: "user",
+    },
     name: {
       type: String,
       required: [true, "Set name for contact"],
