@@ -1,5 +1,5 @@
 const { User } = require("../../models/user");
-const { RequestError } = require("../../helpers/");
+const { RequestError } = require("../../helpers");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -14,15 +14,14 @@ const login = async (req, res) => {
   if (!passwordCompare) {
     throw RequestError(401, "Email or password wrong");
   }
-  console.log(process.env);
+
   const payload = {
-    user: {
-      email: user.email,
-      subsciption: user.subscription,
-    },
+    id: user._id,
+    email: user.email,
+    subscription: user.subscription,
   };
   const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
-
+  await User.findByIdAndUpdate(user._id, { token });
   res.json({
     token,
     user: {

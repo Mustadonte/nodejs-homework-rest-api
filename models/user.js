@@ -33,11 +33,10 @@ const userSchema = new Schema(
 
 userSchema.post("save", handleSaveErrors);
 
-const registerSchema = Joi.object({
+const signUp = Joi.object({
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().min(6).required(),
   subscription: Joi.string().valid(...subscriptionList),
-  token: Joi.string(), // TODO: add required
 });
 
 const loginSchema = Joi.object({
@@ -45,9 +44,18 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const updateSubscription = Joi.object({
+  subscription: Joi.string()
+    .valid(...subscriptionList)
+    .messages({
+      "any.required": "missing required subscription field",
+    }),
+});
+
 const schemas = {
-  registerSchema,
+  signUp,
   loginSchema,
+  updateSubscription,
 };
 
 const User = model("user", userSchema);
