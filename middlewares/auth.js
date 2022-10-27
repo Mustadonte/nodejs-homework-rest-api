@@ -8,12 +8,10 @@ const { SECRET_KEY } = process.env;
 const auth = async (req, res, next) => {
   const { authorization = "" } = req.headers;
   const [bearer, token] = authorization.split(" ");
-
-  if (!token || bearer !== "Bearer") {
-    throw RequestError(401, "Not authorized");
-  }
-
   try {
+    if (!token || bearer !== "Bearer") {
+      throw RequestError(401, "Not authorized");
+    }
     const { id } = jwt.verify(token, SECRET_KEY);
     if (!id) {
       throw RequestError(401, "Not authorized");
