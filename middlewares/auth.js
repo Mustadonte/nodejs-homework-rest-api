@@ -14,12 +14,12 @@ const auth = async (req, res, next) => {
   }
 
   try {
-    const user = jwt.decode(token, SECRET_KEY);
-    if (!user) {
+    const { id } = jwt.verify(token, SECRET_KEY);
+    if (!id) {
       throw RequestError(401, "Not authorized");
     }
-    const verifiedUser = await User.findById(user.id);
-    if (!verifiedUser || !verifiedUser.token) {
+    const user = await User.findById(id);
+    if (!user || !user.token) {
       throw RequestError(401, "Not authorized");
     }
     req.token = token;
