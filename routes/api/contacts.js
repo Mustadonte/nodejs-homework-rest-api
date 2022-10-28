@@ -2,8 +2,10 @@ const express = require("express");
 const { ctrlWrapper } = require("../../helpers");
 const router = express.Router();
 const controllers = require("../../controllers/contacts");
-const { validateBody, isValidId } = require("../../middlewares");
+const { validateBody, isValidId, auth } = require("../../middlewares");
 const { schemas } = require("../../models/contact");
+
+router.use(auth);
 
 router.get("/", ctrlWrapper(controllers.getAll));
 
