@@ -27,16 +27,21 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    avatarURL: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
 userSchema.post("save", handleSaveErrors);
 
-const signUp = Joi.object({
+const signUpSchema = Joi.object({
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().min(6).required(),
   subscription: Joi.string().valid(...subscriptionList),
+  avatarURL: Joi.string(),
 });
 
 const loginSchema = Joi.object({
@@ -53,7 +58,7 @@ const updateSubscription = Joi.object({
 });
 
 const schemas = {
-  signUp,
+  signUpSchema,
   loginSchema,
   updateSubscription,
 };

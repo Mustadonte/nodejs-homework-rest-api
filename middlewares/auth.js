@@ -17,7 +17,7 @@ const auth = async (req, res, next) => {
       throw RequestError(401, "Not authorized");
     }
     const user = await User.findById(id);
-    if (!user || !user.token !== token) {
+    if (!user || user.token !== token) {
       throw RequestError(401, "Not authorized");
     }
     req.token = token;
