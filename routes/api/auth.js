@@ -18,4 +18,12 @@ router.post(
   ctrlWrapper(controller.login)
 );
 
+router.get("/verify/:verificationToken", ctrlWrapper(controller.verify));
+
+router.post(
+  "./verify",
+  validateBody(schemas.verifyEmailSchema),
+  ctrlWrapper(controller.resendEmail)
+);
+
 module.exports = router;
